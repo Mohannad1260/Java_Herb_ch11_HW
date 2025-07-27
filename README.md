@@ -1,4 +1,7 @@
-PingPong:
+# Chapter 11 Concurrency Demos
+
+## Ping-Pong
+
 I created the threads in PingCaller and PongCaller, by using the Thread
 class constructor and passing "this", while keeping the Thread as a field
 , so each time either of the two classes is called another thread is created.
@@ -51,7 +54,8 @@ pong() alternate printing to the screen.
 		notify();
 	}
 
-BoundedBuffer:
+## BoundedBuffer
+
 I created the Threads in the constructors of Produce and Consumer and stored
 it as a field in each class. Then in the App.java I created a list of producers
 and consumers 
@@ -91,7 +95,8 @@ fasion.
 		notifyAll();
 	}
 
-DeadLock:
+## DeadLock
+
 In the deadlock demo I had thread A and thread B share two dummy resources 
 r1 and r2. Thread A would enter and lock on r1
 
@@ -113,7 +118,7 @@ the lock on r1. Both, threads are blocking each other and will never be able to
 break the stalemate.
 
     
-Fix Deadlock:
+## Fix Deadlock
 I fixed this by having both threads hold the lock r1 then sleep then hold the lock r2
 in this case A enters holds r1 sleeps B enters holds r1 sleeps A comes back 
 gains r2 and exists B comes back gains r2 and exists. 
