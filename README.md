@@ -2,7 +2,7 @@
 **Author:** Mohannad Rayan | **Date:** July 2025  
 Adventures in Java threading primitives.
 
-This should test thread creation, coordination, synchronization, interthread
+These demos test thread creation, coordination, synchronization, interthread
 communication, join(), and even a little deadlock avoidance. You can do it all
 with plain Java 11+ threads (no virtual threads needed).
 
