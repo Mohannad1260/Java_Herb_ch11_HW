@@ -60,7 +60,7 @@ I created the Threads in the constructors of Produce and Consumer and stored
 it as a field in each class. Then in the App.java I created a list of producers
 and consumers 
 
-		List<Thread> threads = new ArrayList<>();
+    List<Thread> threads = new ArrayList<>();
 
 I started each as I created them, then after starting all of them,
 I looped through them again and called join() to ensure that the main thread 
@@ -100,17 +100,17 @@ fasion.
 In the deadlock demo I had thread A and thread B share two dummy resources 
 r1 and r2. Thread A would enter and lock on r1
 
-			synchronized (r2)
+    synchronized (r2)
 
 Then inside the lock on r1 it would go to sleep for a second this for all
 intents and purposes transfers control to the B thread 
 
-            Thread.sleep(1000);
+    Thread.sleep(1000);
 
 The B thread locks on r2 and sleeps and transfers back to A, now in A we
 attempt to enter the lock on r2 
 
-			synchronized (r1)
+    synchronized (r1)
 
 However, A cannot enter since the B thread holds the lock, so we transfer to
 the B thread, which tries to gain the lock on r1 but we cannot since A holds
