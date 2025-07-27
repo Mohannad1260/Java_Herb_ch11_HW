@@ -1,9 +1,9 @@
 public class PingPong {
-	boolean lock = false; // we need lock to prevent deadlock
+	boolean flag = false; // we need flag to prevent deadlock
 							// (both methods calling wait)
 
 	public synchronized void ping() {
-		while (!lock) {
+		while (!flag) {
 			try {
 				wait();
 			} catch (InterruptedException e) {
@@ -12,12 +12,12 @@ public class PingPong {
 		}
 
 		System.out.println("Ping");
-		lock = false;
+		flag = false;
 		notify();
 	}
 
 	public synchronized void pong() {
-		while (lock) {
+		while (flag) {
 			try {
 				wait();
 			} catch (Exception e) {
@@ -26,7 +26,7 @@ public class PingPong {
 		}
 
 		System.out.println("Pong");
-		lock = true;
+		flag = true;
 		notify();
 	}
 }

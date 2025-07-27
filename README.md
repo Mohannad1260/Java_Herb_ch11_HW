@@ -24,12 +24,11 @@ Checks:
 
 **Solution** 
 
-I created the threads in PingCaller and PongCaller, by using the Thread class
-constructor and passing "this", while keeping the Thread as a field so each
-time either of the two classes is called another thread is created. I started
-the threads in the App.java by accessing the thread field in PingCaller and
-PongCaller. At the end I called join() on every thread to make sure that the
-main thread is the last one to terminate.
+In both PingCaller and PongCaller, I encapsulated a Thread field by passing the
+this keyword to its constructor. In my App class I simply call
+pingCaller.t.start() and pongCaller.t.start() to kick off each thread, then
+invoke pingCaller.t.join() and pongCaller.t.join() so that the main thread
+blocks until both have finished.
 
 ```java
 PingCaller pingCaller = new PingCaller("Ping", pp, n);
@@ -46,10 +45,10 @@ try {
 }
 ```
 
-I used the synchronized keyword in the method signature of ping() and pong()
-in the class PingPong, this is the shared resource that prints ping and pong
-to the console, since both methods are synchronized only a single thread can 
-be in ping() or ping() at a time.
+I used the synchronized keyword in the method signatures of ping() and pong()
+in the class PingPong. The PingPong class is the shared resource that I use to
+print "ping" and "pong" to the console, since both methods are synchronized
+only a single thread can be in ping() or pong() at a time.
 
     
 ```java
@@ -57,17 +56,16 @@ public synchronized void ping()
 public synchronized void pong() 
 ```
 
-I used wait() and notify() along with a boolean flag with the identified "lock".
-if the boolean flag is false then we have the thread in ping wait() and transfer 
-control to the other thread. There, since lock is false it won't wait() 
-it will print "pong" then switch the boolean flag (lock) (perhaps I should change
-the name of this flag :) ) and notify the ping thread that it can now resume.
-We use wait(), notify(), and the boolean flag to make sure that ping() and 
-pong() alternate printing to the screen.
+I used wait() and notify() along with a boolean flag. If the boolean flag is
+false then, the thread in ping calls wait() and transfers control to the other
+thread. There, since flag is false it won't wait() it will print "pong" then
+switch the flag and notify the ping thread that it can now resume. We use
+wait(), notify(), and the boolean flag to make sure that ping() and pong()
+alternate printing to the screen.
 
 ```java
 public synchronized void ping() {
-    while (!lock) {
+    while (!flag) {
         try {
             wait();
         } catch (InterruptedException e) {
@@ -76,7 +74,7 @@ public synchronized void ping() {
     }
 
     System.out.println("Ping");
-    lock = false;
+    flag = false;
     notify();
 }
 ```
@@ -110,9 +108,9 @@ and consumers
 List<Thread> threads = new ArrayList<>();
 ```
 
-I started each as I created them, then after starting all of them,
-I looped through them again and called join() to ensure that the main thread 
-terminated last.
+I started each as I created them, then after starting all of them, I looped
+through them again and called join() to ensure that the main thread terminated
+last.
 
 ```java
 for (int i = 0; i < M; i++) {
@@ -122,10 +120,10 @@ for (int i = 0; i < M; i++) {
 }
 ```
 
-I used the synchronized keyword in the shared resource BoundedBuffer so that 
-only a single thread can be in put() or take() at a time. We don't want to 
-two threads to produce and a thread to produce and another to consume at the 
-same time that can create race conditions. 
+I used the synchronized keyword in the shared resource BoundedBuffer so that
+only a single thread can be in put() or take() at a time. We don't want to two
+threads to produce simultaneously or a thread to produce and another to consume
+at the same time. If that happens then we can end up with race conditions. 
 
 We use wait() when the buffer is full to stop any producer from producing any
 more items and we use wait() when the buffer is empty() to stop consumers from
