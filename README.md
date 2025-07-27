@@ -150,7 +150,7 @@ public synchronized void put(T item) throws InterruptedException {
 
 **Problem** 
 
-Demonstrate deadlock. Show that both threads block forever.
+Demonstrate deadlock. Show that both threads block forever. Then fix it.
 
 **Solution**
 
