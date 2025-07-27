@@ -10,8 +10,7 @@ with plain Java 11+ threads (no virtual threads needed).
 
 - [Part 1: Ping–Pong (wait/notify)](#part-1-ping–pong-waitnotify)
 - [Part 2: Bounded Buffer (producer/consumer)](#part-2-bounded-buffer-producerconsumer)
-- [Part 3a: Deadlock Demonstration & Resolution](#part-3a-deadlock-demonstration--resolution)
-- [Part 3b: Fix DeadLock](#part-3b-fix-deadlock)
+- [Part 3: Deadlock Demonstration & Resolution](#part-3-deadlock-demonstration--resolution)
 
 ## Part 1: Ping–Pong (wait/notify)
 
@@ -147,7 +146,7 @@ public synchronized void put(T item) throws InterruptedException {
 }
 ```
 
-## Part 3a: Deadlock Demonstration & Resolution
+## Part 3: Deadlock Demonstration & Resolution
 
 **Problem** 
 
@@ -181,17 +180,9 @@ the B thread, which tries to gain the lock on r1 but we cannot since A holds
 the lock on r1. Both, threads are blocking each other and will never be able to
 break the stalemate.
 
-## Part 3b: Fix DeadLock
-
-**Problem**
-
-Verify the deadlock vanishes.
-
-**Solution** 
-
-I fixed this by having both threads hold the lock r1 then sleep then hold the lock r2
-in this case A enters holds r1 sleeps B enters holds r1 sleeps A comes back 
-gains r2 and exits B comes back gains r2 and exits. 
+I fixed this by having both threads hold the lock r1 then sleep then hold the
+lock r2 in this case A enters holds r1 sleeps B enters holds r1 sleeps A comes
+back gains r2 and exits B comes back gains r2 and exits. 
 
 
 View the full source on [GitHub](https://github.com/Mohannad1260/Java_Herb_ch11_HW).
